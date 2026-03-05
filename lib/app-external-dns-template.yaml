@@ -41,7 +41,7 @@ spec:
           txtPrefix: ${ENV} #this should be unique for every external-dns instance to avoid deletion of DNS records created by other instances
     - repoURL: ${PLATFORM_REPOURL}
       targetRevision: HEAD
-      path: clusters/${env}/external-dns      
+      path: clusters/${env}/external-dns
   destination:
     name: ${ENV}
     namespace: external-dns
