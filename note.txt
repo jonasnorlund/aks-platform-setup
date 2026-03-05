@@ -9,3 +9,4 @@ az keyvault secret set --vault-name "kv-crazyninja-ri7f" --name "external-privat
 helm install argocd argo/argo-cd -f argocd-values.yaml -n argocd 
 helm upgrade argocd argo/argo-cd -f argocd-values.yaml -n argocd 
 sdfsf
+
