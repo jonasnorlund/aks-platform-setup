@@ -11,7 +11,7 @@ param (
 # Kubernetes resources
 .\substitute.ps1 -templatefile resources-external-dns-template.yaml -outputfile external-dns/external-dns.yaml -env $env
 .\substitute.ps1 -templatefile resources-external-secrets-template.yaml -outputfile external-secrets/external-secrets.yaml -env $env
-.\substitute.ps1 -templatefile resources-argocd-template.yaml -outputfile argocd/argocd.yaml -env $env
+
 
 # Other files
 .\substitute.ps1 -templatefile secretfile-template.json -outputfile secretfile.json -env $env
