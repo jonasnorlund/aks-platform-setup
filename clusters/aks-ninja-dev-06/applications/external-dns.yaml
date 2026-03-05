@@ -32,7 +32,7 @@ spec:
               mountPath: /etc/kubernetes
               readOnly: true
           provider: 
-            name: azure
+            name: azure-private-dns
           sources: 
             - ingress
           domainFilters:
