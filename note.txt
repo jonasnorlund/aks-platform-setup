@@ -3,10 +3,25 @@ New-SelfSignedCertificate `
   -DnsName "*.crazyninja.io" `
   -CertStoreLocation "Cert:\CurrentUser\My"
 
+  
+
+New-SelfSignedCertificate `
+    -DnsName "*.crazyninja.io", "crazyninja.io" `
+    -CertStoreLocation "Cert:\CurrentUser\My" `
+    -FriendlyName "Wildcard - crazyninja.io" `
+    -KeyLength 2048 `
+    -KeyAlgorithm RSA `
+    -KeyExportPolicy Exportable `
+    -NotAfter (Get-Date).AddYears(5) `
+    -KeyUsage DigitalSignature, KeyEncipherment `
+    -Type SSLServerAuthentication
+
+
+
 
 az keyvault secret set --vault-name "kv-crazyninja-ri7f" --name "external-private-dns-azure" --file "secretfile.json" 
 
 helm install argocd argo/argo-cd -f argocd-values.yaml -n argocd 
-helm upgrade argocd argo/argo-cd -f argocd-values.yaml -n argocd 
-sdfsf
+helm upgrade argocd argo/argo-cd -f clusters/aks-ninja-dev-06/argocd-values.yaml -n argocd 
+
 
