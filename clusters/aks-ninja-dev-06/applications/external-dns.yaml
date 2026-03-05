@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: icarus-external-dns-aks-ninja-dev-06
+  namespace: argocd
+  labels:
+    type: platform
+spec:
+  project: default
+  source:
+    chart: external-dns
+    repoURL: https://kubernetes-sigs.github.io/external-dns
+    targetRevision: "1.15.0"
+    helm:
+      releaseName: external-dns
+      valuesObject:
+        fullnameOverride: external-dns
+        serviceAccount: 
+          name: sa-workload-identity
+          labels: 
+            azure.workload.identity/use: "true"
+          annotations: 
+            azure.workload.identity/client-id: fc9dbe57-8df5-4691-8953-751b9ff8fe92 # platform managed identity
+        podLabels: 
+          azure.workload.identity/use: "true"
+        extraVolumes: 
+          - name: "azure-config-file"
+            secret: 
+              secretName: external-dns-azure
+        extraVolumeMounts: 
+          - name: "azure-config-file"
+            mountPath: /etc/kubernetes
+            readOnly: true
+        provider: 
+          name: azure
+        sources: 
+          - ingress
+        domainFilters:
+          - crazyninja.io
+        policy: sync
+        txtPrefix: aks-ninja-dev-06 #this should be unique for every external-dns instance to avoid deletion of DNS records created by other instances
+          
+  destination:
+    name: aks-ninja-dev-06
+    namespace: external-dns
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+

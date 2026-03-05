@@ -1,0 +1,17 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: external-dns-azure
+  namespace: external-dns
+spec:
+  data:
+    - remoteRef:
+        key: external-private-dns-azure
+      secretKey: azure.json
+  refreshInterval: 3m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: cluster-azure-store
+  target:
+    creationPolicy: Owner
+    name: external-dns-azure

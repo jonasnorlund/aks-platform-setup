@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: icarus-traefik-aks-ninja-dev-06
+  namespace: argocd
+  labels:
+    type: platform
+spec:
+  project: default
+  source:
+    chart: traefik
+    repoURL: https://github.com/traefik/traefik-helm-chart
+    targetRevision: "39.0.4"
+    helm:
+      releaseName: traefik
+      valuesObject:
+        service:
+          type: LoadBalancer
+          annotations:
+            service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+            service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: "/healthz"
+  destination:
+    name: aks-ninja-dev-06
+    namespace: traefik
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      

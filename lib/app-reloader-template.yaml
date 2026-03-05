@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: icarus-reloader-${ENV}
+  namespace: argocd
+  labels:
+    type: platform
+spec:
+  project: default
+  source:
+    chart: reloader
+    repoURL: https://stakater.github.io/stakater-charts
+    targetRevision: "2.2.8"
+    helm:
+      releaseName: reloader
+      values: |
+        reloader:
+          reloadStrategy: "annotations"
+          watchGlobally: true
+  destination:
+    name: ${ENV}
+    namespace: reloader
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
