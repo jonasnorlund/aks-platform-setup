@@ -16,3 +16,6 @@ param (
 # Other files
 .\substitute.ps1 -templatefile secretfile-template.json -outputfile secretfile.json -env $env
 .\substitute.ps1 -templatefile argocd-values-template.yaml -outputfile argocd-values.yaml -env $env
+
+
+
